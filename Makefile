@@ -22,7 +22,7 @@ SHELL:=/bin/bash
 BUILDX:=false
 
 ifeq (${IMAGE_ORG}, )
-  IMAGE_ORG=openebs
+  IMAGE_ORG=quay.io/edgestack
   export IMAGE_ORG
 endif
 
@@ -30,6 +30,8 @@ ifeq (${DIMAGES}, )
   DIMAGES:=linux-utils alpine-sh alpine-bash
   export DIMAGES
 endif
+
+TAG=4.2.0-amd64
 
 #Initialize Docker build arguments. Each of these
 # DBUILD_<name> args will be passed to docker build command
@@ -65,7 +67,7 @@ header:
 .PHONY: image
 image: header
 	@for image in $$DIMAGES; do \
-		sudo docker build -t "$$IMAGE_ORG/$$image:ci" -f ./dockerfiles/$$image/Dockerfile . ${DBUILD_ARGS}; \
+		sudo docker build -t "$$IMAGE_ORG/$$image:${TAG}" -f ./dockerfiles/$$image/Dockerfile . ${DBUILD_ARGS}; \
 	done
 	@echo "Done"
 
